@@ -14,15 +14,6 @@ get '/ping' do
   'pong'
 end
 
-get '/stream' do
-  stream do |out|
-    sleep 0.1
-    out << "a"
-    sleep 1.2
-    out << "b"
-  end
-end
-
 get '/mainonly' do
   object = Object.new
   begin
@@ -34,9 +25,6 @@ get '/mainonly' do
 end
 
 set :out, nil
-get '/async' do
-  stream(:keep_open) { |o| (settings.out = o) << "hi!" }
-end
 
 get '/send' do
   settings.out << params[:msg] if params[:msg]
@@ -46,9 +34,6 @@ end
 
 class Subclass < Sinatra::Base
   set :out, nil
-  get '/subclass/async' do
-    stream(:keep_open) { |o| (settings.out = o) << "hi!" }
-  end
 
   get '/subclass/send' do
     settings.out << params[:msg] if params[:msg]

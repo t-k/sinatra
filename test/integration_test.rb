@@ -26,55 +26,6 @@ class IntegrationTest < Test::Unit::TestCase
     end
   end
 
-  it 'streams' do
-    next if server.webrick? or server.trinidad?
-    times, chunks = [Time.now], []
-    server.get_stream do |chunk|
-      next if chunk.empty?
-      chunks << chunk
-      times << Time.now
-    end
-    assert_equal ["a", "b"], chunks
-    assert times[1] - times[0] < 1
-    assert times[2] - times[1] > 1
-  end
-
-  it 'streams async' do
-    next unless server.thin?
-
-    Timeout.timeout(3) do
-      chunks = []
-      server.get_stream '/async' do |chunk|
-        next if chunk.empty?
-        chunks << chunk
-        case chunk
-        when "hi!"   then server.get "/send?msg=hello"
-        when "hello" then server.get "/send?close=1"
-        end
-      end
-
-      assert_equal ['hi!', 'hello'], chunks
-    end
-  end
-
-  it 'streams async from subclass' do
-    next unless server.thin?
-
-    Timeout.timeout(3) do
-      chunks = []
-      server.get_stream '/subclass/async' do |chunk|
-        next if chunk.empty?
-        chunks << chunk
-        case chunk
-        when "hi!"   then server.get "/subclass/send?msg=hello"
-        when "hello" then server.get "/subclass/send?close=1"
-        end
-      end
-
-      assert_equal ['hi!', 'hello'], chunks
-    end
-  end
-
   it 'starts the correct server' do
     exp = %r{
       ==\sSinatra/#{Sinatra::VERSION}\s
