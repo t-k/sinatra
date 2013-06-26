@@ -657,90 +657,13 @@ module Sinatra
       render(:erb, template, options, locals, &block)
     end
 
-    def erubis(template, options = {}, locals = {})
-      warn "Sinatra::Templates#erubis is deprecated and will be removed, use #erb instead.\n" \
-        "If you have Erubis installed, it will be used automatically."
-      render :erubis, template, options, locals
-    end
-
     def haml(template, options = {}, locals = {}, &block)
       render(:haml, template, options, locals, &block)
-    end
-
-    def sass(template, options = {}, locals = {})
-      options.merge! :layout => false, :default_content_type => :css
-      render :sass, template, options, locals
-    end
-
-    def scss(template, options = {}, locals = {})
-      options.merge! :layout => false, :default_content_type => :css
-      render :scss, template, options, locals
-    end
-
-    def less(template, options = {}, locals = {})
-      options.merge! :layout => false, :default_content_type => :css
-      render :less, template, options, locals
-    end
-
-    def stylus(template, options={}, locals={})
-      options.merge! :layout => false, :default_content_type => :css
-      render :styl, template, options, locals
     end
 
     def builder(template = nil, options = {}, locals = {}, &block)
       options[:default_content_type] = :xml
       render_ruby(:builder, template, options, locals, &block)
-    end
-
-    def liquid(template, options = {}, locals = {}, &block)
-      render(:liquid, template, options, locals, &block)
-    end
-
-    def markdown(template, options = {}, locals = {})
-      render :markdown, template, options, locals
-    end
-
-    def textile(template, options = {}, locals = {})
-      render :textile, template, options, locals
-    end
-
-    def rdoc(template, options = {}, locals = {})
-      render :rdoc, template, options, locals
-    end
-
-    def radius(template, options = {}, locals = {})
-      render :radius, template, options, locals
-    end
-
-    def markaby(template = nil, options = {}, locals = {}, &block)
-      render_ruby(:mab, template, options, locals, &block)
-    end
-
-    def coffee(template, options = {}, locals = {})
-      options.merge! :layout => false, :default_content_type => :js
-      render :coffee, template, options, locals
-    end
-
-    def nokogiri(template = nil, options = {}, locals = {}, &block)
-      options[:default_content_type] = :xml
-      render_ruby(:nokogiri, template, options, locals, &block)
-    end
-
-    def slim(template, options = {}, locals = {}, &block)
-      render(:slim, template, options, locals, &block)
-    end
-
-    def creole(template, options = {}, locals = {})
-      render :creole, template, options, locals
-    end
-
-    def wlang(template, options = {}, locals = {}, &block)
-      render(:wlang, template, options, locals, &block)
-    end
-
-    def yajl(template, options = {}, locals = {})
-      options[:default_content_type] = :json
-      render :yajl, template, options, locals
     end
 
     def rabl(template, options = {}, locals = {})
